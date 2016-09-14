@@ -1,5 +1,7 @@
 import expect from 'expect'
 import { createStore } from 'redux'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 //reducer
 const counter = (state = 0, action) => {
@@ -13,11 +15,19 @@ const counter = (state = 0, action) => {
   }
 }
 
+//Counterコンポーネントを作成。カウンターの値(value)をpropsにとる
+const Counter = ({value}) => (
+  <h1>{value}</h1>
+)
+
 const store = createStore(counter)
 
 //画面更新用の関数を作成
 const render = () => {
-  document.body.innerText = store.getState()
+  ReactDOM.render(
+    <Counter value={store.getState()} />,
+    document.getElementById('root')
+  )
 }
 
 //subscribe関数に、現在のstateの状況を画面に表示する関数をセット
