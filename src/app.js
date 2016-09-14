@@ -1,5 +1,7 @@
 import expect from 'expect'
+import { createStore } from 'redux'
 
+//reducer
 const counter = (state = 0, action) => {
   switch(action.type) {
     case 'INCREMENT':
@@ -11,28 +13,30 @@ const counter = (state = 0, action) => {
   }
 }
 
-expect(
-  counter(0, {type: 'INCREMENT'})
-).toEqual(1)
+const store = createStore(counter)
 
-expect(
-  counter(1, {type: 'INCREMENT'})
-).toEqual(2)
+//getStateで、現在のstateを返す
+console.log(store.getState())
 
-expect(
-  counter(2, {type: 'DECREMENT'})
-).toEqual(1)
+//dispatch(<アクション>)で、reducerにStateとActionを送る・・・Stateがアクションの内容に
+//より変化
+store.dispatch({type: 'INCREMENT'})
 
-//未知のコマンドにはundefinedではなく、現状のStateがそのまま返る
-expect(
-  counter(1, {type: 'UNKNOWN'})
-).toEqual(1)
+//Stateが変化したか確認
+console.log(store.getState())
 
-//初期設定時には0が返る
-expect(
-  counter(undefined, {})
-).toEqual(0)
+//subscribe関数に、現在のstateの状況を画面に表示する関数をセット
+store.subscribe(() => {
+  document.body.innerText = store.getState()
+})
 
-console.log('test passed!')
+//documentオブジェクトをクリックしたらINCREMENTアクションをdispatchする
+//イベントを追加
+document.addEventListener('click', () => {
+  store.dispatch({ type: 'INCREMENT' })
+})
 
-
+//キーボードを押下したらDECREMENTアクションをdispatchする
+document.addEventListener('keyup', () => {
+  store.dispatch({ type: 'DECREMENT' })
+})
