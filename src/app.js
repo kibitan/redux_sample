@@ -15,20 +15,16 @@ const counter = (state = 0, action) => {
 
 const store = createStore(counter)
 
-//getStateで、現在のstateを返す
-console.log(store.getState())
-
-//dispatch(<アクション>)で、reducerにStateとActionを送る・・・Stateがアクションの内容に
-//より変化
-store.dispatch({type: 'INCREMENT'})
-
-//Stateが変化したか確認
-console.log(store.getState())
+//画面更新用の関数を作成
+const render = () => {
+  document.body.innerText = store.getState()
+}
 
 //subscribe関数に、現在のstateの状況を画面に表示する関数をセット
-store.subscribe(() => {
-  document.body.innerText = store.getState()
-})
+store.subscribe(render)
+
+//最初に画面を表示（0が表示される)
+render()
 
 //documentオブジェクトをクリックしたらINCREMENTアクションをdispatchする
 //イベントを追加
@@ -36,7 +32,3 @@ document.addEventListener('click', () => {
   store.dispatch({ type: 'INCREMENT' })
 })
 
-//キーボードを押下したらDECREMENTアクションをdispatchする
-document.addEventListener('keyup', () => {
-  store.dispatch({ type: 'DECREMENT' })
-})
