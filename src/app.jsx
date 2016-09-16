@@ -1,3 +1,6 @@
+// Reduxチュートリアル動画を見ながらReduxを基礎の基礎から - Qiita
+// http://qiita.com/insight3110/items/4d212ecef6992e8eaee5
+
 import expect from 'expect'
 import { createStore } from 'redux'
 import React from 'react'
